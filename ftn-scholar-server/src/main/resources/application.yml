@@ -1,0 +1,50 @@
+server:
+  port: 8088
+  ssl:
+    key-store: classpath:merchantKeyStore.p12
+    key-store-password: ${COIN10_MERCHANT_KEY_PASS}
+    key-password: ${COIN10_MERCHANT_KEY_PASS}
+    trust-store: classpath:merchantTrustStore.p12
+    trust-store-password: ${COIN10_MERCHANT_TRUST_PASS}
+    client-auth: want # Not specifying 'need' because we don't want two-way-auth for requests coming from our web client
+    trust-store-type: PKCS12
+    key-store-type: PKCS12
+    protocol: TLSv1.2
+  compression:
+    enabled: false # CRIME attack prevention
+
+token:
+  header: X-Auth-Token
+  secret: s3cr3t
+  expiration: 604800
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:db
+    driverClassName: org.h2.Driver
+    username: root
+    password: root
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${COIN10_MAIL}
+    password: ${COIN10_MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          starttls.enable: true
+
+frontend-app-url: http://localhost:4000/#
+payment-server-url: https://localhost:8080
+camunda-rest-url: https://localhost:8088/rest
+
+storage-location: C:\Storage
+
+camunda.bpm:
+  admin-user:
+    id: admin
+    password: admin
+  filter:
+    create: All tasks
+  webapp:
+    index-redirect-enabled: false
